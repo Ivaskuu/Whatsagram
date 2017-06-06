@@ -18,7 +18,7 @@ public class ChatFrame extends JFrame implements ActionListener
     	JPanel p = new JPanel(new BorderLayout());
     	JPanel pSouth = new JPanel(new BorderLayout());
     	
-    	txtMessaggi = new JTextArea();
+    	txtMessaggi = new JTextArea(n + ", benvenuto nella chat!");
     	txtMessaggi.setWrapStyleWord(true);
     	
     	txtMsg = new JTextField(5);
