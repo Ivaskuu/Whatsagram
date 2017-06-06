@@ -3,9 +3,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Client extends Thread
 {
+	private Socket socket;
 	private BufferedReader input; // Riceve i messaggi
 	private PrintStream output; // Inviare i messaggi
 	
@@ -13,7 +16,7 @@ public class Client extends Thread
 	{
 		try
 		{
-			Socket socket = new Socket(ip, porta);
+			socket = new Socket(ip, porta);
 			input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			output = new PrintStream(socket.getOutputStream());
 			
@@ -27,7 +30,19 @@ public class Client extends Thread
 	
 	public void InviaMessaggio(String nome, String msg)
 	{
-		output.println(nome + " : " + msg); // Fabio : Ciao mondo !
+		output.println(nome + " [" + new SimpleDateFormat("HH:mm").format(new Date()) + "] : " + msg); // Fabio [23:12] : Ciao mondo !
+	}
+	
+	public void ChiudereConnessione()
+	{
+		try
+		{
+			socket.close();
+		} 
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
@@ -40,7 +55,7 @@ public class Client extends Thread
 				// TODO : Ricevere i messaggi
 				if(input.ready())
 				{
-					System.out.println(input.readLine());
+					Main.ScriviMessaggio(input.readLine());
 				}
 			}
 		}
